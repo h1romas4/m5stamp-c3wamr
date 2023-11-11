@@ -1,0 +1,6 @@
+[submodule "components/wasm/wasm-micro-runtime"]
+	path = components/wasm/wasm-micro-runtime
+	url = https://github.com/bytecodealliance/wasm-micro-runtime
+[submodule "components/arduino-esp32"]
+	path = components/arduino-esp32
+	url = https://github.com/espressif/arduino-esp32.git
