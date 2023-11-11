@@ -2,6 +2,35 @@
 
 ![](https://github.com/h1romas4/m5stamp-c3wamr/workflows/Build/badge.svg)
 
+### Require
+
+- [Setup ESF-IDF **v4.4.6**](https://docs.espressif.com/projects/esp-idf/en/v4.4.6/esp32c3/get-started/index.html#installation-step-by-step)
+
+get_idf or (Windows) ESP-IDF **`4.4.6`** command prompt
+
+```
+# Linux or macOS ->
+$ alias get_idf='. $HOME/esp/esp-idf/export.sh'
+$ get_idf
+# <-
+
+Detecting the Python interpreter
+... snip ...
+Done! You can now compile ESP-IDF projects.
+Go to the project directory and run:
+
+  idf.py build
+
+$ echo ${IDF_PATH}
+/home/hiromasa/devel/toolchain/esp/esp-idf
+
+$ riscv32-esp-elf-gcc -v
+Using built-in specs.
+COLLECT_GCC=riscv32-esp-elf-gcc
+... snip ...
+gcc version 8.4.0 (crosstool-NG esp-2021r2-patch5)
+```
+
 ## Build
 
 1. git clone and build (Please add `--recursive`)
