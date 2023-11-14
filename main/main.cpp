@@ -11,6 +11,7 @@ static const char *TAG = "main.cpp";
 
 /**
  * @see https://github.com/WebAssembly/wasm-c-api/blob/main/example/hello.c
+ * @see https://github.com/bytecodealliance/wasm-micro-runtime/blob/main/product-mini/platforms/esp-idf/main/main.c
  */
 void setup(void)
 {
@@ -29,5 +30,5 @@ void setup(void)
 
 void loop(void)
 {
-
+    delay(1);
 }
