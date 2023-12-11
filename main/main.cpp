@@ -230,6 +230,7 @@ void * iwasm_main(void *arg)
             ESP_LOGE(TAG, "Error calling function!");
             return NULL;
         }
+        delay(1);
     }
 
     // detele local exports
@@ -246,12 +247,41 @@ void * iwasm_main(void *arg)
 }
 
 /**
+ * init_board
+ */
+void init_board(void)
+{
+    // SW initialize
+    pinMode(C3DEV_SW1, INPUT); // external pull up
+    pinMode(M5STAMP_C3_SW, INPUT_PULLUP);
+
+    // SPI initialize
+    SPI.begin(C3DEV_SPI_SCLK, C3DEV_SPI_MISO, C3DEV_SPI_MOSI, C3DEV_SD_CS);
+    SPI.setFrequency(C3DEV_SPI_CLOCK);
+
+    // LCD initialize
+    tft.initR(INITR_BLACKTAB);
+    tft.setSPISpeed(C3DEV_SPI_CLOCK);
+    tft.setRotation(1);
+    tft.fillScreen(ST77XX_BLACK);
+    // If the color is inverted, set to 1.
+    tft.invertDisplay(0);
+    // tft.invertDisplay(1);
+}
+
+/**
  * app_main
  *
  * @see https://github.com/bytecodealliance/wasm-micro-runtime/blob/main/product-mini/platforms/esp-idf/main/main.c
  */
 void app_main(void)
 {
+    ESP_LOGI(TAG, "heap_caps_get_free_size: %d", heap_caps_get_free_size(MALLOC_CAP_8BIT));
+
+    // init hardware
+    init_board();
+
+    // spwan pthread for WARM
     pthread_t t;
     int res;
 
@@ -259,8 +289,6 @@ void app_main(void)
     pthread_attr_init(&tattr);
     pthread_attr_setdetachstate(&tattr, PTHREAD_CREATE_JOINABLE);
     pthread_attr_setstacksize(&tattr, IWASM_MAIN_STACK_SIZE);
-
-    ESP_LOGI(TAG, "heap_caps_get_free_size: %d", heap_caps_get_free_size(MALLOC_CAP_8BIT));
 
     res = pthread_create(&t, &tattr, iwasm_main, (void *)NULL);
     assert(res == 0);
