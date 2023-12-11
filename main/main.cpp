@@ -178,12 +178,25 @@ void * iwasm_main(void *arg)
     ESP_LOGI(TAG, "Extracting export...");
     own wasm_extern_vec_t exports;
     wasm_instance_exports(instance, &exports);
-    if (exports.size == 0) {
+    if(exports.size == 0) {
         ESP_LOGE(TAG, "Error accessing exports!");
         return NULL;
     }
-    const wasm_func_t* run_func = wasm_extern_as_func(exports.data[0]);
-    if(run_func == NULL) {
+    // export "init"
+    const wasm_func_t* init_func = wasm_extern_as_func(exports.data[0]);
+    if(init_func == NULL) {
+        ESP_LOGE(TAG, "Error accessing export!");
+        return NULL;
+    }
+    // export "init"
+    const wasm_func_t* tick_func = wasm_extern_as_func(exports.data[1]);
+    if(tick_func == NULL) {
+        ESP_LOGE(TAG, "Error accessing export!");
+        return NULL;
+    }
+    // export "__collect"
+    const wasm_func_t* collect_func = wasm_extern_as_func(exports.data[5]);
+    if(collect_func == NULL) {
         ESP_LOGE(TAG, "Error accessing export!");
         return NULL;
     }
@@ -195,11 +208,28 @@ void * iwasm_main(void *arg)
 
     // Call.
     ESP_LOGI(TAG, "Calling export...");
-    wasm_val_vec_t args = WASM_EMPTY_VEC;
+    wasm_val_t as[2] = { WASM_I32_VAL(160), WASM_I32_VAL(128) };
+    wasm_val_vec_t args = WASM_ARRAY_VEC(as);
     wasm_val_vec_t results = WASM_EMPTY_VEC;
-    if(wasm_func_call(run_func, &args, &results)) {
+    // init
+    if (wasm_func_call(init_func, &args, &results)) {
         ESP_LOGE(TAG, "Error calling function!");
         return NULL;
+    }
+    // loop
+    wasm_val_vec_t args_empty = WASM_EMPTY_VEC;
+    wasm_val_vec_t results_empty = WASM_EMPTY_VEC;
+    for(size_t i = 0 ; i < 100; i++) {
+        // tick
+        if (wasm_func_call(tick_func, &args_empty, &results_empty)) {
+            ESP_LOGE(TAG, "Error calling function!");
+            return NULL;
+        }
+        // GC for AssemblyScript
+        if (wasm_func_call(collect_func, &args_empty, &results_empty)) {
+            ESP_LOGE(TAG, "Error calling function!");
+            return NULL;
+        }
     }
 
     // detele local exports
