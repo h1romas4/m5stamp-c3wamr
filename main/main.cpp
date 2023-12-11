@@ -159,7 +159,8 @@ void * iwasm_main(void *arg)
     ESP_LOGI(TAG, "Instantiating module...");
     wasm_extern_t* externs[] = {
         wasm_func_as_extern(start_write_func),
-        wasm_func_as_extern(end_write_func),
+        wasm_func_as_extern(draw_line_func),
+        wasm_func_as_extern(end_write_func)
     };
     wasm_extern_vec_t imports = WASM_ARRAY_VEC(externs);
     own wasm_instance_t* instance = wasm_instance_new(store, module, &imports, NULL);
@@ -171,6 +172,7 @@ void * iwasm_main(void *arg)
     // delete local function
     wasm_func_delete(start_write_func);
     wasm_func_delete(end_write_func);
+    wasm_func_delete(draw_line_func);
 
     // Extract export.
     ESP_LOGI(TAG, "Extracting export...");
