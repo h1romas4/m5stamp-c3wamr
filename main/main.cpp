@@ -192,21 +192,21 @@ void * iwasm_main(void *arg)
         ESP_LOGE(TAG, "Error calling function!");
         return NULL;
     }
-    // loop
+    // loop 10000 frame
     wasm_val_vec_t args_empty = WASM_EMPTY_VEC;
     wasm_val_vec_t results_empty = WASM_EMPTY_VEC;
-    for(size_t i = 0 ; i < 100; i++) {
+    for(size_t i = 0 ; i < 10000; i++) {
         // tick
-        if (wasm_func_call(tick_func, &args_empty, &results_empty)) {
+        if(wasm_func_call(tick_func, &args_empty, &results_empty)) {
             ESP_LOGE(TAG, "Error calling function!");
             return NULL;
         }
         // GC for AssemblyScript
-        if (wasm_func_call(collect_func, &args_empty, &results_empty)) {
+        if(wasm_func_call(collect_func, &args_empty, &results_empty)) {
             ESP_LOGE(TAG, "Error calling function!");
             return NULL;
         }
-        delay(1);
+        delay(1); // for watch dog timer
     }
 
     // detele local exports
