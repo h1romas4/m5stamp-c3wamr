@@ -4,3 +4,12 @@
 [submodule "components/arduino-esp32"]
 	path = components/arduino-esp32
 	url = https://github.com/espressif/arduino-esp32.git
+[submodule "components/lcd/adfruitbus"]
+	path = components/lcd/adfruitbus
+	url = https://github.com/adafruit/Adafruit_BusIO
+[submodule "components/lcd/agfxlib"]
+	path = components/lcd/agfxlib
+	url = https://github.com/adafruit/Adafruit-GFX-Library
+[submodule "components/lcd/st7735"]
+	path = components/lcd/st7735
+	url = https://github.com/adafruit/Adafruit-ST7735-Library

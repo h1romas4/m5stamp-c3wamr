@@ -103,7 +103,6 @@ class Imu {
         for(let i = 0; i < CUBE_LENGTH; i++) {
             const x = proj2dPoints[i][0];
             const y = proj2dPoints[i][1];
-            c3dev.draw_pixel(x, y, c3dev.COLOR.RED);
             this.prevProj2dPoints[i] = [x, y];
         }
         c3dev.end_write();

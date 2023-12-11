@@ -47,19 +47,13 @@ idf.py build
 idf.py partition-table-flash
 ```
 
-3. Write TypeType font to SPIFFS
-
-```
-parttool.py write_partition --partition-name=font --partition-subtype=spiffs --input resources/spiffs_font.bin
-```
-
-4. Write WebAssembly(.wasm) to SPIFFS
+3. Write WebAssembly(.wasm) to SPIFFS
 
 ```
 parttool.py write_partition --partition-name=wasm --partition-subtype=spiffs --input resources/spiffs_wasm.bin
 ```
 
-5. Write main program to go!
+4. Write main program to go!
 
 ```
 idf.py flash monitor
@@ -68,7 +62,6 @@ idf.py flash monitor
 ## Create SPIFFS partition file from file system
 
 ```
-python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x100000 resources/font resources/spiffs_font.bin
 python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x10000 resources/wasm resources/spiffs_wasm.bin
 ```
 

@@ -9,5 +9,5 @@ set(SRCS
 idf_component_register(
     INCLUDE_DIRS ${INCLUDEDIRS}
     SRCS ${SRCS}
-    REQUIRES arduino-esp32 wamr
+    REQUIRES arduino-esp32 lcd wamr
 )
