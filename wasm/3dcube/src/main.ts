@@ -83,10 +83,6 @@ class Imu {
             proj2dPoints[i] = [x, y];
         }
 
-        // Draw
-        // c3dev.fill_rect(0, 0, this.width, this.height, c3dev.COLOR.BLACK);
-
-        c3dev.start_write();
         // clear prev lines
         for(let i = 0; i < CUBE_LENGTH / 2; i++) {
             this.connect(i, (i + 1) % 4, this.prevProj2dPoints, c3dev.COLOR.BLACK);
@@ -105,7 +101,6 @@ class Imu {
             const y = proj2dPoints[i][1];
             this.prevProj2dPoints[i] = [x, y];
         }
-        c3dev.end_write();
 
         this.angle += 0.04;
     }

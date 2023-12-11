@@ -1,8 +1,4 @@
-export declare function start_write(): void;
 export declare function draw_line(x0: i32, y0: i32, x1: i32, y1: i32, color: i32): void;
-export declare function end_write(): void;
-
-export declare function log(string: ArrayBuffer): void;
 
 export const enum COLOR {
     BLACK =  0x0000,

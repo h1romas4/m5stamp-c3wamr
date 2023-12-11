@@ -41,11 +41,11 @@ Adafruit_ST7735 tft = Adafruit_ST7735(spi, C3DEV_LCD_CS, C3DEV_LCD_DC, C3DEV_LCD
  * wasm_functype_new_5_0 (5 agrs function)
  */
 static inline own wasm_functype_t* wasm_functype_new_5_0(
-  own wasm_valtype_t* p1,
-  own wasm_valtype_t* p2,
-  own wasm_valtype_t* p3,
-  own wasm_valtype_t* p4,
-  own wasm_valtype_t* p5
+    own wasm_valtype_t* p1,
+    own wasm_valtype_t* p2,
+    own wasm_valtype_t* p3,
+    own wasm_valtype_t* p4,
+    own wasm_valtype_t* p5
 ) {
     wasm_valtype_t* ps[5] = {p1, p2, p3, p4, p5};
     wasm_valtype_vec_t params, results;
@@ -55,35 +55,18 @@ static inline own wasm_functype_t* wasm_functype_new_5_0(
 }
 
 /**
- * start_write (A function to be called from Wasm code)
- */
-own wasm_trap_t* start_write_callback(
-  const wasm_val_vec_t* args, wasm_val_vec_t* results
-) {
-    printf("Calling back...\n");
-    printf("> Hello World!\n");
-    return NULL;
-}
-
-/**
- * end_write (A function to be called from Wasm code)
- */
-own wasm_trap_t* end_write_callback(
-  const wasm_val_vec_t* args, wasm_val_vec_t* results
-) {
-    printf("Calling back...\n");
-    printf("> Hello World!\n");
-    return NULL;
-}
-
-/**
  * draw_line_callback (A function to be called from Wasm code)
  */
 own wasm_trap_t* draw_line_callback(
-  const wasm_val_vec_t* args, wasm_val_vec_t* results
+    const wasm_val_vec_t* args, wasm_val_vec_t* results
 ) {
-    printf("Calling back...\n");
-    printf("> Hello World!\n");
+    tft.drawLine(
+        args->data[0].of.i32,
+        args->data[1].of.i32,
+        args->data[2].of.i32,
+        args->data[3].of.i32,
+        args->data[4].of.i32
+    );
     return NULL;
 }
 
@@ -136,15 +119,7 @@ void * iwasm_main(void *arg)
 
     // Create external functions.
     ESP_LOGI(TAG, "Creating callback...");
-    // import "c3dev" "start_write"
-    own wasm_functype_t* start_write_type = wasm_functype_new_0_0();
-    own wasm_func_t* start_write_func = wasm_func_new(store, start_write_type, start_write_callback);
-    wasm_functype_delete(start_write_type);
-    // import "c3dev" "end_write"
-    own wasm_functype_t* end_write_type = wasm_functype_new_0_0();
-    own wasm_func_t* end_write_func = wasm_func_new(store, end_write_type, end_write_callback);
-    wasm_functype_delete(end_write_type);
-    // import "c3dev" "draw_line"
+    // (import "c3dev" "draw_line" (func (;1;) (type 8)))   draw_line_type
     own wasm_functype_t* draw_line_type = wasm_functype_new_5_0(
         wasm_valtype_new_i32(),
         wasm_valtype_new_i32(),
@@ -158,9 +133,7 @@ void * iwasm_main(void *arg)
     // Instantiate.
     ESP_LOGI(TAG, "Instantiating module...");
     wasm_extern_t* externs[] = {
-        wasm_func_as_extern(start_write_func),
         wasm_func_as_extern(draw_line_func),
-        wasm_func_as_extern(end_write_func)
     };
     wasm_extern_vec_t imports = WASM_ARRAY_VEC(externs);
     own wasm_instance_t* instance = wasm_instance_new(store, module, &imports, NULL);
@@ -170,8 +143,6 @@ void * iwasm_main(void *arg)
     }
 
     // delete local function
-    wasm_func_delete(start_write_func);
-    wasm_func_delete(end_write_func);
     wasm_func_delete(draw_line_func);
 
     // Extract export.
@@ -182,19 +153,22 @@ void * iwasm_main(void *arg)
         ESP_LOGE(TAG, "Error accessing exports!");
         return NULL;
     }
-    // export "init"
+    // (export "init" (func 14))        init_func
+    // (export "tick" (func 21))        tick_func
+    // (export "__new" (func 8))        -
+    // (export "__pin" (func 22))       -
+    // (export "__unpin" (func 23))     -
+    // (export "__collect" (func 24))   collect_func
     const wasm_func_t* init_func = wasm_extern_as_func(exports.data[0]);
     if(init_func == NULL) {
         ESP_LOGE(TAG, "Error accessing export!");
         return NULL;
     }
-    // export "init"
     const wasm_func_t* tick_func = wasm_extern_as_func(exports.data[1]);
     if(tick_func == NULL) {
         ESP_LOGE(TAG, "Error accessing export!");
         return NULL;
     }
-    // export "__collect"
     const wasm_func_t* collect_func = wasm_extern_as_func(exports.data[5]);
     if(collect_func == NULL) {
         ESP_LOGE(TAG, "Error accessing export!");
@@ -205,6 +179,8 @@ void * iwasm_main(void *arg)
     wasm_module_delete(module);
     // delete local instance
     wasm_instance_delete(instance);
+
+    ESP_LOGI(TAG, "heap_caps_get_free_size: %d", heap_caps_get_free_size(MALLOC_CAP_8BIT));
 
     // Call.
     ESP_LOGI(TAG, "Calling export...");
@@ -264,9 +240,7 @@ void init_board(void)
     tft.setSPISpeed(C3DEV_SPI_CLOCK);
     tft.setRotation(1);
     tft.fillScreen(ST77XX_BLACK);
-    // If the color is inverted, set to 1.
     tft.invertDisplay(0);
-    // tft.invertDisplay(1);
 }
 
 /**
