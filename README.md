@@ -2,7 +2,7 @@
 
 ![](https://github.com/h1romas4/m5stamp-c3wamr/workflows/Build/badge.svg)
 
-This repository demonstrates the use of wasm-micro-runtime on M5Stamp C3 to run WebAssembly applications.
+This repository demonstrates the use of [WebAssembly Micro Runtime (WAMR)](https://github.com/bytecodealliance/wasm-micro-runtime) on M5Stamp C3 to run WebAssembly applications.
 
 ![Demo](https://github.com/h1romas4/m5stamp-c3wamr/blob/main/assets/images/wamr-01.jpg?raw=true)
 
