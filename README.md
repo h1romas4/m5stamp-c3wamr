@@ -6,6 +6,8 @@ This repository demonstrates the use of wasm-micro-runtime on M5Stamp C3 to run 
 
 ![Demo](https://github.com/h1romas4/m5stamp-c3wamr/blob/main/assets/images/wamr-01.jpg?raw=true)
 
+[🎥Demo Movie](https://www.youtube.com/watch?v=WbJujIf2P-4)
+
 ### Require
 
 - [Setup ESF-IDF **v4.4.6**](https://docs.espressif.com/projects/esp-idf/en/v4.4.6/esp32c3/get-started/index.html#installation-step-by-step)
