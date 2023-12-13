@@ -65,11 +65,15 @@ parttool.py write_partition --partition-name=wasm --partition-subtype=spiffs --i
 idf.py flash monitor
 ```
 
-## Create SPIFFS partition file from file system
+### Create SPIFFS partition file from file system
 
 ```
 python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x10000 resources/wasm resources/spiffs_wasm.bin
 ```
+
+## Schematic
+
+[https://github.com/h1romas4/m5stamp-c3dev](https://github.com/h1romas4/m5stamp-c3dev)
 
 ## Dependencies
 
