@@ -13,3 +13,9 @@
 [submodule "components/lcd/st7735"]
 	path = components/lcd/st7735
 	url = https://github.com/adafruit/Adafruit-ST7735-Library
+[submodule "components/m5stack/M5Core2"]
+	path = components/m5stack/M5Core2
+	url = https://github.com/m5stack/M5Core2
+[submodule "components/m5stack/M5EPD"]
+	path = components/m5stack/M5EPD
+	url = https://github.com/m5stack/M5EPD
