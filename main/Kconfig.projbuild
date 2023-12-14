@@ -1,0 +1,10 @@
+menu "Board Configuration"
+    choice
+        prompt "Select Board"
+            default DEV_BOARD_M5STAMP
+        config DEV_BOARD_M5STAMP
+            bool "M5Stamp C3 (RISC-V)"
+        config DEV_BOARD_M5STACK
+            bool "M5Stack Core2 (Xtensa)"
+    endchoice
+endmenu

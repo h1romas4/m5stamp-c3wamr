@@ -6,7 +6,7 @@
 #include "Arduino.h"
 #include "SPIFFS.h"
 #include "esp_log.h"
-#include "c3dev_board.h"
+#include "M5Core2.h"
 
 #include "wasm_c_api.h"
 
@@ -23,19 +23,9 @@ void app_main(void);
 }
 
 /**
- * SPI member
- */
-SPIClass *spi = &SPI;
-
-/**
  * SPIFFS member
  */
 fs::SPIFFSFS SPIFFS_WASM;
-
-/**
- * LCD member
- */
-Adafruit_ST7735 tft = Adafruit_ST7735(spi, C3DEV_LCD_CS, C3DEV_LCD_DC, C3DEV_LCD_RST);
 
 /**
  * wasm_functype_new_5_0 (5 agrs function)
@@ -60,7 +50,7 @@ static inline own wasm_functype_t* wasm_functype_new_5_0(
 own wasm_trap_t* draw_line_callback(
     const wasm_val_vec_t* args, wasm_val_vec_t* results
 ) {
-    tft.drawLine(
+    M5.Lcd.drawLine(
         args->data[0].of.i32,
         args->data[1].of.i32,
         args->data[2].of.i32,
@@ -184,7 +174,7 @@ void * iwasm_main(void *arg)
 
     // Call.
     ESP_LOGI(TAG, "Calling export...");
-    wasm_val_t as[2] = { WASM_I32_VAL(160), WASM_I32_VAL(128) };
+    wasm_val_t as[2] = { WASM_I32_VAL(320), WASM_I32_VAL(240) };
     wasm_val_vec_t args = WASM_ARRAY_VEC(as);
     wasm_val_vec_t results = WASM_EMPTY_VEC;
     // init
@@ -223,27 +213,6 @@ void * iwasm_main(void *arg)
 }
 
 /**
- * init_board
- */
-void init_board(void)
-{
-    // SW initialize
-    pinMode(C3DEV_SW1, INPUT); // external pull up
-    pinMode(M5STAMP_C3_SW, INPUT_PULLUP);
-
-    // SPI initialize
-    SPI.begin(C3DEV_SPI_SCLK, C3DEV_SPI_MISO, C3DEV_SPI_MOSI, C3DEV_SD_CS);
-    SPI.setFrequency(C3DEV_SPI_CLOCK);
-
-    // LCD initialize
-    tft.initR(INITR_BLACKTAB);
-    tft.setSPISpeed(C3DEV_SPI_CLOCK);
-    tft.setRotation(1);
-    tft.fillScreen(ST77XX_BLACK);
-    tft.invertDisplay(0);
-}
-
-/**
  * app_main
  *
  * @see https://github.com/bytecodealliance/wasm-micro-runtime/blob/main/product-mini/platforms/esp-idf/main/main.c
@@ -253,7 +222,7 @@ void app_main(void)
     ESP_LOGI(TAG, "heap_caps_get_free_size: %d", heap_caps_get_free_size(MALLOC_CAP_8BIT));
 
     // init hardware
-    init_board();
+    M5.begin();
 
     // spwan pthread for WARM
     pthread_t t;
