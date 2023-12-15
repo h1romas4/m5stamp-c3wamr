@@ -75,6 +75,12 @@ python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x10000 resources/wasm resourc
 
 [https://github.com/h1romas4/m5stamp-c3dev](https://github.com/h1romas4/m5stamp-c3dev)
 
+## M5Stack Core2 (ESP32/Xtensa) version
+
+[https://github.com/h1romas4/m5stamp-c3wamr/tree/target-m5stack](https://github.com/h1romas4/m5stamp-c3wamr/tree/target-m5stack)
+
+![Demo](https://github.com/h1romas4/m5stamp-c3wamr/blob/main/assets/images/wamr-02.jpg?raw=true)
+
 ## Dependencies
 
 Thanks for all the open source.
