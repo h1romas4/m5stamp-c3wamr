@@ -110,3 +110,4 @@ fatal error: libc_errno.h: No such file or directory
 ```
 
 > https://github.com/bytecodealliance/wasm-micro-runtime/issues/2846
+> https://github.com/bytecodealliance/wasm-micro-runtime/issues/2989
