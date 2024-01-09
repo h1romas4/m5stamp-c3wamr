@@ -98,3 +98,15 @@ Thanks for all the open source.
 ## License
 
 MIT License
+
+## Note
+
+WARM `1.3.0` seems to have the following compile errors.
+
+`components/wasm/wasm-micro-runtime/core/shared/platform/esp-idf/espidf_socket.c`
+
+```
+fatal error: libc_errno.h: No such file or directory
+```
+
+> https://github.com/bytecodealliance/wasm-micro-runtime/issues/2846
