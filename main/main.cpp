@@ -10,8 +10,8 @@
 
 #include "wasm_c_api.h"
 
-#define WAMR_AOT 0
-// #define WAMR_AOT 1
+#define WASM_ENABLE_AOT 0
+// #define WASM_ENABLE_AOT 1
 // TODO:
 // I (1572) main.cpp: .wasm size: 42060
 // I (1584) main.cpp: Compiling module...
@@ -96,7 +96,7 @@ void * iwasm_main(void *arg)
     ESP_LOGI(TAG, "Load Wasm binary...");
     SPIFFS_WASM.begin(false, "/wasm", 4, "wasm");
 
-    #if WAMR_AOT == 0
+    #if WASM_ENABLE_AOT == 0
     File wasm_file = SPIFFS_WASM.open("/3dcube.wasm", "rb");
     #else
     File wasm_file = SPIFFS_WASM.open("/3dcube-riscv32.aot", "rb");
@@ -116,7 +116,7 @@ void * iwasm_main(void *arg)
     SPIFFS_WASM.end();
 
     // Validate.
-    #if WAMR_AOT == 0
+    #if WASM_ENABLE_AOT == 0
     ESP_LOGI(TAG, "Validating module...");
     if (!wasm_module_validate(store, &binary)) {
         ESP_LOGE(TAG, "Error validating module!");
