@@ -48,6 +48,23 @@ fs::SPIFFSFS SPIFFS_WASM;
 Adafruit_ST7735 tft = Adafruit_ST7735(spi, C3DEV_LCD_CS, C3DEV_LCD_DC, C3DEV_LCD_RST);
 
 /**
+ * print_heap_info
+ */
+void print_heap_info(uint32_t caps)
+{
+    multi_heap_info_t info;
+    heap_caps_get_info(&info, caps);
+    ESP_LOGI(TAG, " heap_caps_get_free_size: %d", heap_caps_get_free_size(caps));
+    ESP_LOGI(TAG, " allocated_blocks: %d", info.allocated_blocks);
+    ESP_LOGI(TAG, " free_blocks: %d", info.free_blocks);
+    ESP_LOGI(TAG, " largest_free_block: %d", info.largest_free_block);
+    ESP_LOGI(TAG, " minimum_free_bytes: %d", info.minimum_free_bytes);
+    ESP_LOGI(TAG, " total_allocated_bytes: %d", info.total_allocated_bytes);
+    ESP_LOGI(TAG, " total_blocks: %d", info.total_blocks);
+    ESP_LOGI(TAG, " total_free_bytes: %d", info.total_free_bytes);
+}
+
+/**
  * wasm_functype_new_5_0 (5 agrs function)
  */
 static inline own wasm_functype_t* wasm_functype_new_5_0(
@@ -116,6 +133,7 @@ void * iwasm_main(void *arg)
     SPIFFS_WASM.end();
 
     // Validate.
+    // TODO: Error when performing validation with riscv32 AOT.
     #if WASM_ENABLE_AOT == 0
     ESP_LOGI(TAG, "Validating module...");
     if (!wasm_module_validate(store, &binary)) {
@@ -133,8 +151,22 @@ void * iwasm_main(void *arg)
         //  #else
         //  uint32_t mem_caps = MALLOC_CAP_EXEC;
         //  #endif
-        // TODO:I (1585) main.cpp: heap_caps_get_free_size(MALLOC_CAP_EXEC): 0
-        ESP_LOGI(TAG, "heap_caps_get_free_size(MALLOC_CAP_EXEC): %d", heap_caps_get_free_size(MALLOC_CAP_EXEC));
+        // TODO: Find out how to get the executable memory (IRAM?) in ESP32C3.
+        //  I (250) heap_init: Initializing. RAM available for dynamic allocation:
+        //  I (257) heap_init: At 3FC8F080 len 0004D690 (309 KiB): DRAM
+        //  I (263) heap_init: At 3FCDC710 len 00002950 (10 KiB): STACK/DRAM
+        //  I (270) heap_init: At 50000020 len 00001FE0 (7 KiB): RTCRAM
+        //  I (1580) main.cpp: print_heap_info(MALLOC_CAP_EXEC):
+        //  I (1580) main.cpp:  heap_caps_get_free_size: 0
+        //  I (1584) main.cpp:  allocated_blocks: 0
+        //  I (1589) main.cpp:  free_blocks: 0
+        //  I (1593) main.cpp:  largest_free_block: 0
+        //  I (1598) main.cpp:  minimum_free_bytes: 0
+        //  I (1602) main.cpp:  total_allocated_bytes: 0
+        //  I (1607) main.cpp:  total_blocks: 0
+        //  I (1611) main.cpp:  total_free_bytes: 0
+        ESP_LOGI(TAG, "print_heap_info(MALLOC_CAP_EXEC):");
+        print_heap_info(MALLOC_CAP_EXEC);
     #endif
     own wasm_module_t* module = wasm_module_new(store, &binary);
     if (!module) {
