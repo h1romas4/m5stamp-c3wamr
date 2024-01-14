@@ -89,7 +89,7 @@ Thanks for all the open source.
 |-|-|--|
 |[esp-idf](https://docs.espressif.com/projects/esp-idf/en/v4.4.6/esp32c3/get-started/index.html)|`v4.4.6`|BSD License|
 |[arduino-esp32](https://github.com/espressif/arduino-esp32/releases/tag/2.0.13)|`2.0.14`|LGPL-2.1 License|
-|[WebAssembly Micro Runtime (WAMR)](https://github.com/bytecodealliance/wasm-micro-runtime)|`1.2.3`|Apache-2.0 License|
+|[WebAssembly Micro Runtime (WAMR)](https://github.com/bytecodealliance/wasm-micro-runtime)|`1.3.1`|Apache-2.0 License|
 |[AssemblyScript](https://github.com/AssemblyScript/assemblyscript)|`0.27.14`|Apache-2.0 License|
 |[Adafruit_GFX](https://github.com/adafruit/Adafruit-GFX-Library)|`1.11.9`|BSD License|
 |[Adafruit_BusIO](https://github.com/adafruit/Adafruit_BusIO)|`1.14.5`|MIT License|
@@ -98,16 +98,3 @@ Thanks for all the open source.
 ## License
 
 MIT License
-
-## Note
-
-WARM `1.3.0` seems to have the following compile errors.
-
-`components/wasm/wasm-micro-runtime/core/shared/platform/esp-idf/espidf_socket.c`
-
-```
-fatal error: libc_errno.h: No such file or directory
-```
-
-> https://github.com/bytecodealliance/wasm-micro-runtime/issues/2846
-> https://github.com/bytecodealliance/wasm-micro-runtime/issues/2989
