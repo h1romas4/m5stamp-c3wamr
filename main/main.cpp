@@ -10,6 +10,16 @@
 
 #include "wasm_c_api.h"
 
+#define WAMR_AOT 0
+// #define WAMR_AOT 1
+// TODO:
+// I (1572) main.cpp: .wasm size: 42060
+// I (1584) main.cpp: Compiling module...
+// [00:00:01:900 - 3FC93220]: AOT module load failed: mmap memory failed
+// [00:00:01:347 - 3FC93220]: wasm_module_new failed
+// E (1588) main.cpp: Error compiling module!
+// I (1593) main.cpp: heap_caps_get_free_size: 273844
+
 #define IWASM_MAIN_STACK_SIZE 4096
 #define own
 
@@ -85,7 +95,13 @@ void * iwasm_main(void *arg)
     // Load binary.
     ESP_LOGI(TAG, "Load Wasm binary...");
     SPIFFS_WASM.begin(false, "/wasm", 4, "wasm");
+
+    #if WAMR_AOT == 0
     File wasm_file = SPIFFS_WASM.open("/3dcube.wasm", "rb");
+    #else
+    File wasm_file = SPIFFS_WASM.open("/3dcube-riscv32.aot", "rb");
+    #endif
+
     size_t file_size = wasm_file.size();
     ESP_LOGI(TAG, ".wasm size: %d", file_size);
     // load wasm binary
@@ -100,11 +116,13 @@ void * iwasm_main(void *arg)
     SPIFFS_WASM.end();
 
     // Validate.
+    #if WAMR_AOT == 0
     ESP_LOGI(TAG, "Validating module...");
     if (!wasm_module_validate(store, &binary)) {
         ESP_LOGE(TAG, "Error validating module!");
         return NULL;
     }
+    #endif
 
     // Compile.
     ESP_LOGI(TAG, "Compiling module...");
@@ -255,7 +273,7 @@ void app_main(void)
     // init hardware
     init_board();
 
-    // spwan pthread for WARM
+    // spwan pthread for WAMR
     pthread_t t;
     int res;
 
