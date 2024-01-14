@@ -65,6 +65,17 @@ parttool.py write_partition --partition-name=wasm --partition-subtype=spiffs --i
 idf.py flash monitor
 ```
 
+## Build (`.wasm` to `.aot`)
+
+(WIP) This repository does not yet support loading of riscv32 AOT file.
+
+```bash
+$ wamrc --version
+wamrc 1.3.1
+$ cd resources/wasm/
+wamrc --target=riscv32 -o 3dcube-riscv32.aot 3dcube.wasm
+```
+
 ### Create SPIFFS partition file from file system
 
 ```
