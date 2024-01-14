@@ -10,7 +10,7 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 list(APPEND EXTRA_COMPONENT_DIRS "components/wasm/wasm-micro-runtime/build-scripts/esp-idf")
 set(WAMR_BUILD_INTERP 1)
 set(WAMR_BUILD_FAST_INTERP 1)
-set(WAMR_BUILD_AOT 0)
+set(WAMR_BUILD_AOT 1)
 set(WAMR_BUILD_LIBC_BUILTIN 1)
 set(WAMR_BUILD_APP_FRAMEWORK 0)
 
