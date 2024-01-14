@@ -126,6 +126,16 @@ void * iwasm_main(void *arg)
 
     // Compile.
     ESP_LOGI(TAG, "Compiling module...");
+    #if WASM_ENABLE_AOT
+        // components/wasm/wasm-micro-runtime/core/shared/platform/esp-idf/espidf_memmap.c
+        //  #if (WASM_MEM_DUAL_BUS_MIRROR != 0)
+        //  uint32_t mem_caps = MALLOC_CAP_SPIRAM;
+        //  #else
+        //  uint32_t mem_caps = MALLOC_CAP_EXEC;
+        //  #endif
+        // TODO:I (1585) main.cpp: heap_caps_get_free_size(MALLOC_CAP_EXEC): 0
+        ESP_LOGI(TAG, "heap_caps_get_free_size(MALLOC_CAP_EXEC): %d", heap_caps_get_free_size(MALLOC_CAP_EXEC));
+    #endif
     own wasm_module_t* module = wasm_module_new(store, &binary);
     if (!module) {
         ESP_LOGE(TAG, "Error compiling module!");
@@ -268,7 +278,7 @@ void init_board(void)
  */
 void app_main(void)
 {
-    ESP_LOGI(TAG, "heap_caps_get_free_size: %d", heap_caps_get_free_size(MALLOC_CAP_8BIT));
+    ESP_LOGI(TAG, "heap_caps_get_free_size(MALLOC_CAP_8BIT): %d", heap_caps_get_free_size(MALLOC_CAP_8BIT));
 
     // init hardware
     init_board();
