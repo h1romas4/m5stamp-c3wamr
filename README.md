@@ -10,9 +10,9 @@ This repository demonstrates the use of [WebAssembly Micro Runtime (WAMR)](https
 
 ### Require
 
-- [Setup ESF-IDF **v4.4.6**](https://docs.espressif.com/projects/esp-idf/en/v4.4.6/esp32c3/get-started/index.html#installation-step-by-step)
+- [Setup ESF-IDF **release/v5.1**](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32c3/get-started/linux-macos-setup.html)
 
-get_idf or (Windows) ESP-IDF **`4.4.6`** command prompt
+get_idf or (Windows) ESP-IDF command prompt
 
 ```
 # Linux or macOS ->
@@ -34,7 +34,7 @@ $ riscv32-esp-elf-gcc -v
 Using built-in specs.
 COLLECT_GCC=riscv32-esp-elf-gcc
 ... snip ...
-gcc version 8.4.0 (crosstool-NG esp-2021r2-patch5)
+gcc version 12.2.0 (crosstool-NG esp-12.2.0_20230208)
 ```
 
 ## Build
