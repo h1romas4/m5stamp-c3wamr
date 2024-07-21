@@ -243,11 +243,12 @@ void * iwasm_main(void *arg)
     ESP_LOGI(TAG, "heap_caps_get_free_size: %d", heap_caps_get_free_size(MALLOC_CAP_8BIT));
 
     // Call.
-    ESP_LOGI(TAG, "Calling export...");
     wasm_val_t as[2] = { WASM_I32_VAL(160), WASM_I32_VAL(128) };
     wasm_val_vec_t args = WASM_ARRAY_VEC(as);
     wasm_val_vec_t results = WASM_EMPTY_VEC;
+
     // init
+    ESP_LOGI(TAG, "Calling export (init_func)...");
     if (wasm_func_call(init_func, &args, &results)) {
         ESP_LOGE(TAG, "Error calling function!");
         return NULL;
@@ -269,10 +270,9 @@ void * iwasm_main(void *arg)
         delay(1); // for watch dog timer
     }
 
-    // detele local exports
-    wasm_extern_vec_delete(&exports);
-
+    // Shutting
     ESP_LOGI(TAG, "Shutting down...");
+    wasm_extern_vec_delete(&exports);
     wasm_store_delete(store);
     wasm_engine_delete(engine);
 
