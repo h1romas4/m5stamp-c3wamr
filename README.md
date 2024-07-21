@@ -10,9 +10,9 @@ This repository demonstrates the use of [WebAssembly Micro Runtime (WAMR)](https
 
 ### Require
 
-- [Setup ESF-IDF **v4.4.6**](https://docs.espressif.com/projects/esp-idf/en/v4.4.6/esp32c3/get-started/index.html#installation-step-by-step)
+- [Setup ESF-IDF **release/v5.1**](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32c3/get-started/linux-macos-setup.html)
 
-get_idf or (Windows) ESP-IDF **`4.4.6`** command prompt
+get_idf or (Windows) ESP-IDF command prompt
 
 ```
 # Linux or macOS ->
@@ -34,7 +34,7 @@ $ riscv32-esp-elf-gcc -v
 Using built-in specs.
 COLLECT_GCC=riscv32-esp-elf-gcc
 ... snip ...
-gcc version 8.4.0 (crosstool-NG esp-2021r2-patch5)
+gcc version 12.2.0 (crosstool-NG esp-12.2.0_20230208)
 ```
 
 ## Build
@@ -70,7 +70,7 @@ idf.py flash monitor
 ### Create SPIFFS partition file from file system
 
 ```
-python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x10000 resources/wasm resources/spiffs_wasm.bin
+python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x20000 resources/wasm resources/spiffs_wasm.bin
 ```
 
 ### Build (`.wasm` to `.aot`)
@@ -100,8 +100,8 @@ Thanks for all the open source.
 
 |Name|Version|License|
 |-|-|--|
-|[esp-idf](https://docs.espressif.com/projects/esp-idf/en/v4.4.6/esp32c3/get-started/index.html)|`v4.4.6`|BSD License|
-|[arduino-esp32](https://github.com/espressif/arduino-esp32/releases/tag/2.0.13)|`2.0.14`|LGPL-2.1 License|
+|[esp-idf](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32c3/get-started/index.html)|`release/v5.1`|BSD License|
+|[arduino-esp32](https://github.com/espressif/arduino-esp32/releases/tag/3.0.2)|`3.0.2`|LGPL-2.1 License|
 |[WebAssembly Micro Runtime (WAMR)](https://github.com/bytecodealliance/wasm-micro-runtime)|`1.3.1`|Apache-2.0 License|
 |[AssemblyScript](https://github.com/AssemblyScript/assemblyscript)|`0.27.14`|Apache-2.0 License|
 |[Adafruit_GFX](https://github.com/adafruit/Adafruit-GFX-Library)|`1.11.9`|BSD License|
