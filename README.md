@@ -70,7 +70,7 @@ idf.py flash monitor
 ### Create SPIFFS partition file from file system
 
 ```
-python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x10000 resources/wasm resources/spiffs_wasm.bin
+python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x20000 resources/wasm resources/spiffs_wasm.bin
 ```
 
 ### Build (`.wasm` to `.aot`)
