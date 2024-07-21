@@ -102,8 +102,8 @@ Thanks for all the open source.
 |-|-|--|
 |[esp-idf](https://docs.espressif.com/projects/esp-idf/en/release-v5.1/esp32c3/get-started/index.html)|`release/v5.1`|BSD License|
 |[arduino-esp32](https://github.com/espressif/arduino-esp32/releases/tag/3.0.2)|`3.0.2`|LGPL-2.1 License|
-|[WebAssembly Micro Runtime (WAMR)](https://github.com/bytecodealliance/wasm-micro-runtime)|`1.3.1`|Apache-2.0 License|
-|[AssemblyScript](https://github.com/AssemblyScript/assemblyscript)|`0.27.14`|Apache-2.0 License|
+|[WebAssembly Micro Runtime (WAMR)](https://github.com/bytecodealliance/wasm-micro-runtime)|`2.1.1`|Apache-2.0 License|
+|[AssemblyScript](https://github.com/AssemblyScript/assemblyscript)|`0.27.29`|Apache-2.0 License|
 |[Adafruit_GFX](https://github.com/adafruit/Adafruit-GFX-Library)|`1.11.9`|BSD License|
 |[Adafruit_BusIO](https://github.com/adafruit/Adafruit_BusIO)|`1.14.5`|MIT License|
 |[Adafruit-ST7735-Library](https://github.com/adafruit/Adafruit-ST7735-Library)|`1.10.3`|MIT License|
