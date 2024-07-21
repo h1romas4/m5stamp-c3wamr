@@ -37,7 +37,6 @@ jobs:
     - name: Build
       run: |
         . ~/esp/esp-idf/export.sh
-        pip3 install -r $IDF_PATH/requirements.txt
         idf.py build
         cd wasm/3dcube
         npm install
