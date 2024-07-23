@@ -81,7 +81,16 @@ python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x20000 resources/wasm resourc
 $ wamrc --version
 wamrc 2.1.1
 $ cd resources/wasm/
-wamrc --target=riscv32 -o 3dcube-riscv32.aot 3dcube.wasm
+$ wamrc --target=riscv32 -o 3dcube-riscv32.aot 3dcube.wasm
+Create AoT compiler with:
+  target:        riscv32
+  target cpu:
+  target triple: riscv32-pc-linux-ilp32d
+  cpu features:  +d
+  opt level:     3
+  size level:    3
+  output format: AoT file
+Compile success, file 3dcube-riscv32.aot was generated.
 ```
 
 ## Schematic
