@@ -79,7 +79,7 @@ python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x20000 resources/wasm resourc
 
 ```bash
 $ wamrc --version
-wamrc 1.3.1
+wamrc 2.1.1
 $ cd resources/wasm/
 wamrc --target=riscv32 -o 3dcube-riscv32.aot 3dcube.wasm
 ```
