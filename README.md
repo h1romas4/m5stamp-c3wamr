@@ -73,6 +73,11 @@ idf.py flash monitor
 python ${IDF_PATH}/components/spiffs/spiffsgen.py 0x20000 resources/wasm resources/spiffs_wasm.bin
 ```
 
+```bash
+$ cat partitions.csv | grep spiffs
+wasm,     data, spiffs,  0x310000, 0x20000
+```
+
 ### Build (`.wasm` to `.aot`)
 
 (WIP) This repository does not yet support loading of riscv32 AOT file.
